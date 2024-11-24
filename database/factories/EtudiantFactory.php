@@ -25,7 +25,7 @@ class EtudiantFactory extends Factory
             'telephone' => $this->faker->phoneNumber,
             'email' => $this->faker->unique()->safeEmail,
             'date_de_naissance' => $this->faker->date(),
-            'ville_id' => Ville::factory(), 
+            'villes_id' => Ville::query()->inRandomOrder()->value('id'),
         ];
     }
 }
