@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'etudiant_id',
     ];
 
     /**
@@ -45,4 +46,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+     /**
+     * Define the relationship with the Etudiant model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function etudiant()
+    {
+        return $this->belongsTo(Etudiant::class);
+    }
 }
+
