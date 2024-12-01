@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->date('date_de_naissance');
             $table->foreignId('ville_id')->constrained('villes')->onDelete('cascade');
+            $table->string('password'); 
 
             $table->timestamps();
         });
@@ -29,5 +30,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('etudiants');
+        $table->dropColumn('password');
     }
 };

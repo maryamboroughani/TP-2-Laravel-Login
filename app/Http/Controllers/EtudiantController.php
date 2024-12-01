@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Etudiant;
 use App\Models\Ville;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EtudiantController extends Controller
 {
@@ -40,11 +41,20 @@ class EtudiantController extends Controller
             'telephone' => 'required|string|max:20',
             'email' => 'required|email|unique:etudiants,email',
             'date_de_naissance' => 'required|date',
-            'ville_id' => 'required|exists:villes,id'
+            'ville_id' => 'required|exists:villes,id',
+            'password' => 'required|min:6|max:20',
         ]);
 
-        // Create a new Etudiant
-        $etudiant = Etudiant::create($request->all());
+        $etudiant = Etudiant::create([
+            'nom' => $request->nom,
+            'adresse' => $request->adresse,
+            'telephone' => $request->telephone,
+            'email' => $request->email,
+            'date_de_naissance' => $request->date_de_naissance,
+            'ville_id' => $request->ville_id,
+            'password' => Hash::make($request->password), 
+        ]);
+    
 
         // Redirect to show the new Etudiant
         return redirect()->route('etudiants.show', $etudiant->id)->withSuccess('Étudiant créé avec succès !');
@@ -97,4 +107,6 @@ class EtudiantController extends Controller
         // Redirect to the list of Etudiants
         return redirect()->route('etudiants.index')->withSuccess('Étudiant supprimé avec succès !');
     }
+
+   
 }

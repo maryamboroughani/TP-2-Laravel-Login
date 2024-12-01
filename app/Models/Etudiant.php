@@ -16,7 +16,8 @@ class Etudiant extends Model
         'telephone', 
         'email', 
         'date_de_naissance', 
-        'ville_id'
+        'ville_id',
+        'password',
     ];
 
       // the relationship to Ville
