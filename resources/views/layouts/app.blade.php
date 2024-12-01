@@ -33,26 +33,19 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Langue</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Français</a></li>
-                        <li><a class="dropdown-item" href="#">Anglais</a></li>
+                        <li><a class="dropdown-item" href="{{route('lang', 'fr')}}">@lang('Français')</a></li>
+                        <li><a class="dropdown-item" href="{{route('lang', 'en')}}">@lang('Anglais')</a></li>
                     </ul>
                 </li>
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">Se Connecter</a>
+                        <a class="nav-link" href="{{ route('login') }}">@lang ('Se Connecter')</a>
+                        @else
+                            <a class="nav-link" href="{{route('logout')}}">@lang('Se Deconnecter')</a>
+                        @endguest
                     </li>
-                @endguest
-                @auth
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('logout') }}" 
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                           Se Déconnecter
-                        </a>
-                    </li>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                @endauth
+                
+                    
             </ul>
         </div>
     </div>
@@ -62,6 +55,11 @@
 
     <!-- Responsive container that adjusts based on screen size -->
     <main class="container-lg my-4">
+    @auth
+            <p>{{trans('lang.text_welcome')}} <strong>{{Auth::user()->name}},</strong></p>
+        @else
+            <p>Veuillez vous connecter pour continuer</p>
+        @endauth
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}

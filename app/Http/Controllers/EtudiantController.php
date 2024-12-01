@@ -39,12 +39,13 @@ class EtudiantController extends Controller
             'nom' => 'required|string|max:255',
             'adresse' => 'required|string',
             'telephone' => 'required|string|max:20',
-            'email' => 'required|email|unique:etudiants,email',
+            'email' => 'required|email|unique:etudiants,email|unique:users,email',
             'date_de_naissance' => 'required|date',
             'ville_id' => 'required|exists:villes,id',
-            'password' => 'required|min:6|max:20',
+            'password' => 'required|min:6|max:20', // Validate password
         ]);
-
+    
+        // Create the Etudiant
         $etudiant = Etudiant::create([
             'nom' => $request->nom,
             'adresse' => $request->adresse,
@@ -55,10 +56,18 @@ class EtudiantController extends Controller
             'password' => Hash::make($request->password), 
         ]);
     
-
+        // Create the corresponding User
+        \App\Models\User::create([
+            'name' => $etudiant->nom, 
+            'email' => $etudiant->email, 
+            'password' => Hash::make($request->password), 
+            'etudiant_id' => $etudiant->id, 
+        ]);
+    
         // Redirect to show the new Etudiant
         return redirect()->route('etudiants.show', $etudiant->id)->withSuccess('Étudiant créé avec succès !');
     }
+    
 
     public function show(Etudiant $etudiant)
     {

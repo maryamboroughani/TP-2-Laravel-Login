@@ -26,6 +26,8 @@ class EtudiantFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'date_de_naissance' => $this->faker->date(),
             'ville_id' => Ville::query()->inRandomOrder()->value('id'),
+            'password' => static::$password ??= Hash::make('password'),
+            'remember_token' => Str::random(10),
         ];
     }
 }

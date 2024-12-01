@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->date('date_de_naissance');
             $table->foreignId('ville_id')->constrained('villes')->onDelete('cascade');
-            $table->string('password'); 
+            $table->string('password')->nullable();
 
             $table->timestamps();
         });
