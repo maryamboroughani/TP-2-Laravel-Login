@@ -25,4 +25,15 @@ class Etudiant extends Model
       {
           return $this->belongsTo(Ville::class);
       }
+
+      public function articles()
+{
+    return $this->hasMany(Article::class, 'etudiant_id');
+}
+      public function users()
+{
+    return $this->hasMany(User::class);
+}
+
+
 }

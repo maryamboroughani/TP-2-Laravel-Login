@@ -26,6 +26,7 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
                             </form>
+                            <a href="{{ route('articles.index', ['etudiant' => $etudiant->id]) }}" class="btn btn-info btn-sm">Forum</a>
                         </div>
                     </div>
                 </div>
