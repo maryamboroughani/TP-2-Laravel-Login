@@ -11,6 +11,7 @@
     </style>
 </head>
 <body class="d-flex flex-column h-100">
+@php $locale = session()->get('locale'); @endphp
     <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary-custom">
     <div class="container-fluid">
@@ -22,16 +23,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                @auth
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('etudiants.index') }}">Liste des Étudiants</a>
+                    <a class="nav-link active" aria-current="page" href="{{ route('etudiants.index') }}">@lang('Liste des Étudiants')</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('etudiants.create') }}">Ajouter Étudiant</a>
+                    <a class="nav-link" href="{{ route('etudiants.create') }}">@lang('Ajouter Étudiant')</a>
                 </li>
+                @endauth
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Langue</a>
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">@lang('Langue')  {{$locale == '' ? '' : "($locale)"}}</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{route('lang', 'fr')}}">@lang('Français')</a></li>
                         <li><a class="dropdown-item" href="{{route('lang', 'en')}}">@lang('Anglais')</a></li>
@@ -39,7 +42,7 @@
                 </li>
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">@lang ('Se Connecter')</a>
+                        <a class="nav-link" href="{{ route('login') }}">@lang('Se Connecter')</a>
                         @else
                             <a class="nav-link" href="{{route('logout')}}">@lang('Se Deconnecter')</a>
                         @endguest

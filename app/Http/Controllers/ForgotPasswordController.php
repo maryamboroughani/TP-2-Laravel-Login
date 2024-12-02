@@ -28,9 +28,11 @@ class ForgotPasswordController extends Controller
         $to_email = $user->email;
         $body = "<a href='" . route('user.reset', [$userId, $tempPassword]) . "'>Click here to reset your password</a>";
 
-        Mail::send('user.mail', ['name' => $to_name, 'body' => $body], function ($message) use ($to_email) {
+        Mail::send('etudiants.mail', ['name' => $to_name, 'body' => $body], function ($message) use ($to_email) {
             $message->to($to_email)->subject('Reset Password');
         });
+        
+      
 
         return redirect(route('login'))->withSuccess('Please check your email to reset the password.');
     }
@@ -38,10 +40,11 @@ class ForgotPasswordController extends Controller
     public function reset(User $user, $token)
     {
         if ($user->temp_password === $token) {
-            return view('user.reset', compact('user', 'token'));
+            return view('etudiants.reset', compact('user', 'token'));
         }
         return redirect(route('user.forgot'))->withErrors('Invalid or expired reset token.');
     }
+    
 
     public function resetUpdate(User $user, $token, Request $request)
     {
@@ -58,4 +61,10 @@ class ForgotPasswordController extends Controller
         }
         return redirect(route('user.forgot'))->withErrors('Invalid or expired reset token.');
     }
+    
+    public function forgot()
+{
+    return view('auth.forgot');
+}
+
 }

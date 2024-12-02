@@ -1,7 +1,8 @@
 {
-    "Login":"se connecter",
-    "Logout":"se deconnecter",
-    "Users":"Utilisateurs",
-    "New User":"Nouvel Utilisateur",
-    "Students":"Etudiants"
+    "Liste des Étudiants":  "Liste des Étudiants",
+    "Ajouter Étudiant": "Ajouter Étudiant",
+    "Langue": "Langue",
+    "Français":  "Français",
+    "Se Déconnecter": "Se Déconnecter",
+    "Se Connecter":  "Se Connecter"
 }
