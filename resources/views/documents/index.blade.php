@@ -33,10 +33,12 @@
                     <td>{{ $document->user->name }}</td>
                     <td>{{ $document->created_at->format('Y-m-d H:i') }}</td>
                     <td>
-                        <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank">View</a>
+                    <a href="{{ Storage::url($document->file_path) }}" target="_blank">View</a>
+
                     </td>
                     @auth
                     <td>
+                        <!-- Check if the logged-in user is the uploader -->
                         @if (auth()->id() === $document->user_id)
                             <a href="{{ route('documents.edit', $document) }}" class="btn btn-sm btn-warning">Edit</a>
                             <form action="{{ route('documents.destroy', $document) }}" method="POST" style="display: inline;">
@@ -44,6 +46,8 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
+                        @else
+                            <span class="text-muted">No actions available</span>
                         @endif
                     </td>
                     @endauth
