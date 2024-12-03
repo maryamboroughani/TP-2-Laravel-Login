@@ -27,6 +27,7 @@
                                 <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
                             </form>
                             <a href="{{ route('articles.index', ['etudiant' => $etudiant->id]) }}" class="btn btn-info btn-sm">Forum</a>
+                            <a href="{{ route('documents.create') }}" class="btn btn-sm btn-success">Upload Document</a>
                         </div>
                     </div>
                 </div>

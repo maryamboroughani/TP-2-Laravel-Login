@@ -11,8 +11,9 @@
     </style>
 </head>
 <body class="d-flex flex-column h-100">
-@php $locale = session()->get('locale'); @endphp
-    <header>
+
+@php $locale = session()->get('locale') @endphp
+ <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary-custom">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
@@ -40,13 +41,20 @@
                         <li><a class="dropdown-item" href="{{route('lang', 'en')}}">@lang('Anglais')</a></li>
                     </ul>
                 </li>
-                @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">@lang('Se Connecter')</a>
-                        @else
-                            <a class="nav-link" href="{{route('logout')}}">@lang('Se Deconnecter')</a>
-                        @endguest
+               
+    <li class="nav-item">
+    @guest
+        <a class="nav-link" href="{{ route('login') }}">@lang('Se Connecter')</a>
+    
+@else
+        <a class="nav-link" href="{{ route('logout') }}">@lang('Se Deconnecter')</a>
+@endguest
+
                     </li>
+                    <li class="nav-item">
+    <a class="nav-link" href="{{ route('documents.index') }}">View Files</a>
+</li>
+
                 
                     
             </ul>

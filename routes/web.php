@@ -37,14 +37,7 @@ Route::put('/reset/{user}/{token}', [ForgotPasswordController::class, 'resetUpda
 
 Route::get('/lang/{locale}', [SetLocaleController::class, 'index'])->name('lang');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
-    Route::get('/documents/create', [DocumentController::class, 'create'])->name('documents.create');
-    Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
-    Route::get('/documents/{document}/edit', [DocumentController::class, 'edit'])->name('documents.edit');
-    Route::put('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
-    Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
-});
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/forum', [ArticleController::class, 'index'])->name('articles.index');
@@ -61,14 +54,18 @@ Route::middleware(['auth', 'role:author'])->group(function () {
     Route::resource('articles', ArticleController::class);
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::middleware(['role:Author'])->group(function () {
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
     Route::put('/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
     Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
-
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('documents', DocumentController::class)->except(['show']);
+});
+
+Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');

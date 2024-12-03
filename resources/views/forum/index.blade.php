@@ -6,10 +6,9 @@
 <div class="container">
     <h1>Articles</h1>
 
-    <!-- Show "Add Article" button only if the logged-in user is viewing their own section -->
-    @if (auth()->check() && request()->input('etudiant') == auth()->user()->etudiant_id)
+
         <a href="{{ route('articles.create') }}" class="btn btn-primary mb-3">Ajouter un Article</a>
-    @endif
+  
 
     <table class="table">
         <thead>

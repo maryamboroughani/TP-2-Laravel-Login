@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
     public function index()
     {
-        $documents = Document::with('user')->paginate(10);
+        $documents = Document::with('user')->paginate(10); // Paginate documents
         return view('documents.index', compact('documents'));
     }
 
@@ -22,58 +21,62 @@ class DocumentController extends Controller
 
     public function store(Request $request)
     {
+        // Validate the inputs
         $request->validate([
-            'title_fr' => 'required|string|max:255',
-            'title_en' => 'required|string|max:255',
-            'file' => 'required|file|mimes:pdf,zip,doc|max:2048',
+            'title_fr' => 'required_without:title_en|string|max:255',
+            'title_en' => 'required_without:title_fr|string|max:255',
+            'file' => 'required|mimes:pdf,zip,doc,docx|max:2048',
         ]);
-
-        $filePath = $request->file('file')->store('documents');
-
+    
+        // Store the uploaded file in the 'documents' directory
+        $path = $request->file('file')->store('documents');
+    
+        // Create a new document record in the database
         Document::create([
-            'title_fr' => $request->title_fr,
-            'title_en' => $request->title_en,
-            'file_path' => $filePath,
-            'user_id' => Auth::id(),
+            'title_fr' => $request->input('title_fr'),
+            'title_en' => $request->input('title_en') ?? $request->input('title_fr'), // Fallback to 'title_fr' if 'title_en' is missing
+            'file_path' => $path,
+            'user_id' => auth()->id(),
         ]);
-
-        return redirect()->route('documents.index')->withSuccess('Document uploaded successfully.');
+    
+        // Redirect to the documents index with a success message
+        return redirect()->route('documents.index')->with('success', 'Document uploaded successfully!');
     }
+    
 
     public function edit(Document $document)
     {
-        $this->authorize('update', $document);
+        if ($document->user_id !== auth()->id()) {
+            abort(403); // Only the uploader can edit
+        }
         return view('documents.edit', compact('document'));
     }
 
     public function update(Request $request, Document $document)
     {
-        $this->authorize('update', $document);
+        if ($document->user_id !== auth()->id()) {
+            abort(403);
+        }
 
         $request->validate([
             'title_fr' => 'required|string|max:255',
-            'title_en' => 'required|string|max:255',
-            'file' => 'nullable|file|mimes:pdf,zip,doc|max:2048',
+            'title_en' => 'nullable|string|max:255',
         ]);
 
-        if ($request->hasFile('file')) {
-            Storage::delete($document->file_path);
-            $filePath = $request->file('file')->store('documents');
-            $document->file_path = $filePath;
-        }
+        $document->update($request->only('title_fr', 'title_en'));
 
-        $document->update($request->only(['title_fr', 'title_en']));
-
-        return redirect()->route('documents.index')->withSuccess('Document updated successfully.');
+        return redirect()->route('documents.index')->with('success', 'Document updated successfully!');
     }
 
     public function destroy(Document $document)
     {
-        $this->authorize('delete', $document);
+        if ($document->user_id !== auth()->id()) {
+            abort(403);
+        }
 
-        Storage::delete($document->file_path);
-        $document->delete();
+        Storage::delete($document->file_path); // Delete the file
+        $document->delete(); // Delete the record
 
-        return redirect()->route('documents.index')->withSuccess('Document deleted successfully.');
+        return redirect()->route('documents.index')->with('success', 'Document deleted successfully!');
     }
 }

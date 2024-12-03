@@ -2,7 +2,8 @@
     "Liste des Étudiants": "List of Students",
     "Ajouter Étudiant": "Add Student",
     "Langue": "Language",
+    "Français": "French",
     "Anglais": "English",
-    "Se Déconnecter": "Logout",
-    "Se Connecter": "login"
+    "Se Connecter": "Login",
+    "Se Deconnecter": "Logout"
 }
