@@ -28,15 +28,15 @@
                     <td>
                         <!-- Show "Edit" and "Delete" buttons only for the article's author -->
                         @if (auth()->check() && request()->input('etudiant') == auth()->user()->etudiant_id)
-                            <a href="{{ route('articles.edit', $article) }}" class="btn btn-sm btn-primary">Modifier</a>
+                            <a href="{{ route('articles.edit', $article) }}" class="btn btn-sm btn-primary">@lang('Modifier')</a>
                             
                             <!-- Delete Button -->
                             <form action="{{ route('articles.destroy', $article) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this article? This action cannot be undone.');">
-                                    Supprimer
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this article? This action cannot be undone.');">@lang('Supprimer')
+                                  
                                 </button>
                             </form>
                         @endif

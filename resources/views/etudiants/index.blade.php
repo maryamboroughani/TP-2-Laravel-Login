@@ -4,8 +4,8 @@
 
 @section('content')
 <div class="container">
-    <h1 class="my-4 text-center">Liste des Étudiants</h1>
-    <a href="{{ route('etudiants.create') }}" class="btn btn-primary mb-3">Ajouter un Nouvel Étudiant</a>
+    <h1 class="my-4 text-center">@lang('Liste des Étudiants')</h1>
+    <a href="{{ route('etudiants.create') }}" class="btn btn-primary mb-3">@lang('Ajouter Étudiant')</a>
     
     <div class="row">
         @foreach($etudiants as $etudiant)
@@ -27,12 +27,17 @@
                                 <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
                             </form>
                             <a href="{{ route('articles.index', ['etudiant' => $etudiant->id]) }}" class="btn btn-info btn-sm">Forum</a>
-                            <a href="{{ route('documents.create') }}" class="btn btn-sm btn-success">Upload Document</a>
+                            <a href="{{ route('documents.create') }}" class="btn btn-sm btn-success">Téléverseur</a>
                         </div>
                     </div>
                 </div>
             </div>
         @endforeach
+    </div>
+
+    <!-- Add Pagination Links -->
+    <div class="d-flex justify-content-center mt-4">
+        {{ $etudiants->links() }}
     </div>
 </div>
 @endsection

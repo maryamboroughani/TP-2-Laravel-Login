@@ -7,6 +7,7 @@ use App\Http\Controllers\SetLocaleController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\DocumentController;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +34,6 @@ Route::get('/forgot', [ForgotPasswordController::class, 'forgot'])->name('user.f
 Route::post('/forgot', [ForgotPasswordController::class, 'email'])->name('user.email');
 Route::get('/reset/{user}/{token}', [ForgotPasswordController::class, 'reset'])->name('user.reset');
 Route::put('/reset/{user}/{token}', [ForgotPasswordController::class, 'resetUpdate'])->name('user.reset.update');
-
 
 Route::get('/lang/{locale}', [SetLocaleController::class, 'index'])->name('lang');
 
@@ -68,4 +68,4 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('documents', DocumentController::class)->except(['show']);
 });
 
-Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
+Route::get('/documents/{document}/view', [DocumentController::class, 'viewFile'])->name('documents.view');

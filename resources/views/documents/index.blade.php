@@ -33,18 +33,21 @@
                     <td>{{ $document->user->name }}</td>
                     <td>{{ $document->created_at->format('Y-m-d H:i') }}</td>
                     <td>
-                    <a href="{{ Storage::url($document->file_path) }}" target="_blank">View</a>
+                    <td>
+    <a href="{{ route('documents.view', $document->id) }}" class="btn btn-info btn-sm">View</a>
+</td>
+
 
                     </td>
                     @auth
                     <td>
                         <!-- Check if the logged-in user is the uploader -->
                         @if (auth()->id() === $document->user_id)
-                            <a href="{{ route('documents.edit', $document) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="{{ route('documents.edit', $document) }}" class="btn btn-sm btn-warning">@lang('Modifier')</a>
                             <form action="{{ route('documents.destroy', $document) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-sm btn-danger">@lang('Supprimer')</button>
                             </form>
                         @else
                             <span class="text-muted">No actions available</span>

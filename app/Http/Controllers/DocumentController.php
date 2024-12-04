@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Dompdf\Dompdf;
+
 
 class DocumentController extends Controller
 {
@@ -79,4 +82,32 @@ class DocumentController extends Controller
 
         return redirect()->route('documents.index')->with('success', 'Document deleted successfully!');
     }
-}
+    public function viewFile(Document $document)
+    {
+        if ($document->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+    
+        // Ensure the file exists
+        $filePath = storage_path('app/public/' . $document->file_path);
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found.');
+        }
+    
+        // Debug to ensure QR Code generation
+        Log::debug('Generating QR Code for: ' . $document->file_path);
+        $qrCode = QrCode::size(200)->generate(asset('storage/' . $document->file_path));
+    
+        // Debug to ensure PDF rendering
+        Log::debug('Generating PDF for: ' . $document->id);
+        $pdf = new Dompdf();
+        $pdf->setPaper('letter', 'portrait');
+        $pdf->loadHtml(view('documents.show-pdf', [
+            'document' => $document,
+            'qrCode' => $qrCode,
+        ]));
+        $pdf->render();
+    
+        return $pdf->stream('document_' . $document->id . '.pdf');
+    }
+}    

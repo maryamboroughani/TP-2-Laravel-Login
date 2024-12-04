@@ -32,7 +32,7 @@
             <input type="file" id="file" name="file" class="form-control" accept=".pdf,.zip,.doc,.docx" required>
         </div>
 
-        <button type="submit" class="btn btn-success">Upload</button>
+        <button type="submit" class="btn btn-success">@lang('Téléverseur')</button>
     </form>
 </div>
 @endsection

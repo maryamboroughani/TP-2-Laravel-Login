@@ -4,20 +4,21 @@
 
 @section('content')
 
+
 <div class="container">
     <div class="row justify-content-center my-5">
         <div class="col-6">
             <div class="card">
                 <div class="card-header">
                     <h1 class="text-center">
-                        @lang('lang.text_welcome_title')
+                        @lang('text_welcome')
                     </h1>
                 </div>
                 <div class="card-body">
-                    {!! trans('lang.text_welcome_paragraph') !!}
+                    @lang('text_welcome_paragraph')
                 </div>
                 <div class="card-footer text-center">
-                    <a href="{{ route('etudiants.index') }}" class="btn btn-primary">@lang('lang.text_go_students')</a>
+                    <a href="{{ route('etudiants.index') }}" class="btn btn-primary">@lang('text_go_students')</a>
                 </div>
             </div>
         </div>

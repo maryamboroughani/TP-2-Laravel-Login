@@ -43,7 +43,7 @@
             <textarea class="form-control" id="content_en" name="content_en" rows="4">{{ old('content_en') }}</textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Publish</button>
+        <button type="submit" class="btn btn-primary">Publier</button>
     </form>
 </div>
 @endsection

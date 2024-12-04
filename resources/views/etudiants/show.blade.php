@@ -13,11 +13,11 @@
         <li class="list-group-item"><strong>Date de Naissance:</strong> {{ $etudiant->date_de_naissance }}</li>
         <li class="list-group-item"><strong>Ville:</strong> {{ $etudiant->ville->nom }}</li>
     </ul>
-    <a href="{{ route('etudiants.edit', $etudiant->id) }}" class="btn btn-warning mt-3">Modifier</a>
+    <a href="{{ route('etudiants.edit', $etudiant->id) }}" class="btn btn-warning mt-3">@lang('Modifier')</a>
     
     <!-- Bouton pour déclencher la modal de suppression -->
-    <button type="button" class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#deleteEtudiantModal">
-        Supprimer
+    <button type="button" class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#deleteEtudiantModal">@lang('Supprimer')
+      
     </button>
 </div>
 
@@ -37,7 +37,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                    <button type="submit" class="btn btn-danger">@lang('Supprimer')</button>
                 </div>
             </form>
         </div>
